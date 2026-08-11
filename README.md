@@ -148,7 +148,7 @@ spotlint --help
 Scan a Python file:
 
 ```bash
-spotlint check test_agent.py
+spotlint check tests/test_agent.py
 ```
 
 Scan a project:
