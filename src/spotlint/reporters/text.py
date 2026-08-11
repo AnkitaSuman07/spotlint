@@ -3,7 +3,7 @@ class TextReporter:
     def render(self, findings):
 
         if not findings:
-            return "Flowmark: no findings."
+            return "spotlint: no findings."
 
         output = []
 

@@ -1,4 +1,4 @@
-from flowmark.cli import main
+from spotlint.cli import main
 
 
 def test_bad_example(capsys):

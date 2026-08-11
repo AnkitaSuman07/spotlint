@@ -1,20 +1,19 @@
-Yes. For the **public Beta**, I'd make the README more restrained and credible: explain the problem, demonstrate the tool, document the current rules honestly, and keep future architecture at a high level.
 
-# Flowmark
+# spotlint
 
 ### Static analysis for agentic software.
 
-Flowmark is a local-first static analyzer for Python applications that use **AI agents, LLMs, tools, and agentic workflows**.
+spotlint is a local-first static analyzer for Python applications that use **AI agents, LLMs, tools, and agentic workflows**.
 
 Agentic applications introduce execution patterns that traditional linters and static-analysis tools were not designed to reason about: repeated agent execution, tool reachability, uncontrolled execution paths, and missing execution boundaries.
 
-Flowmark Beta provides an initial, deterministic analysis layer for identifying these patterns during development and CI.
+spotlint Beta provides an initial, deterministic analysis layer for identifying these patterns during development and CI.
 
-> ⚠️ **Flowmark is currently in beta.** Findings are experimental and should not be interpreted as proof that an application is secure or safe.
+> ⚠️ **spotlint is currently in beta.** Findings are experimental and should not be interpreted as proof that an application is secure or safe.
 
 ---
 
-## Why Flowmark?
+## Why spotlint?
 
 Traditional static analysis is built around conventional software constructs:
 
@@ -53,13 +52,13 @@ An agent may dynamically decide:
 * whether to invoke another agent
 * which external capability to access
 
-Flowmark's goal is to make potentially risky execution patterns visible **before the application runs**.
+spotlint's goal is to make potentially risky execution patterns visible **before the application runs**.
 
 ---
 
 # Beta Philosophy
 
-Flowmark Beta follows four principles.
+spotlint Beta follows four principles.
 
 ### Local-first
 
@@ -67,7 +66,7 @@ Analysis runs locally against the developer's source code.
 
 ### No source upload
 
-Flowmark does not require source code to be sent to a Flowmark server.
+spotlint does not require source code to be sent to a spotlint server.
 
 ### No LLM required
 
@@ -75,7 +74,7 @@ The beta analyzer uses deterministic static analysis. An LLM is not required to 
 
 ### CI-friendly
 
-Flowmark is designed to work locally and in automated development pipelines.
+spotlint is designed to work locally and in automated development pipelines.
 
 ---
 
@@ -107,7 +106,7 @@ Clone the repository:
 
 ```bash
 git clone <repository-url>
-cd flowmark
+cd spotlint
 ```
 
 Create a virtual environment:
@@ -130,7 +129,7 @@ source .venv/bin/activate
 .venv\Scripts\activate
 ```
 
-Install Flowmark:
+Install spotlint:
 
 ```bash
 pip install -e ".[dev]"
@@ -139,7 +138,7 @@ pip install -e ".[dev]"
 Verify the installation:
 
 ```bash
-flowmark --help
+spotlint --help
 ```
 
 ---
@@ -149,19 +148,19 @@ flowmark --help
 Scan a Python file:
 
 ```bash
-flowmark check test_agent.py
+spotlint check test_agent.py
 ```
 
 Scan a project:
 
 ```bash
-flowmark check .
+spotlint check .
 ```
 
 Example:
 
 ```text
-FLOW001 HIGH
+sp001 HIGH
   test_agent.py:5:5
 
   Unbounded agent/tool execution loop detected.
@@ -191,10 +190,10 @@ def run_agent():
         execute_tool("search")
 ```
 
-Flowmark may report:
+spotlint may report:
 
 ```text
-FLOW001 HIGH
+sp001 HIGH
   test_agent.py:2:5
 
   Unbounded agent/tool execution loop detected.
@@ -215,13 +214,13 @@ The purpose is to highlight an execution pattern that deserves developer review.
 
 # Beta Rules
 
-Flowmark Beta contains five initial experimental rules.
+spotlint Beta contains five initial experimental rules.
 
 The rules are intentionally conservative in scope. They will evolve as we collect real-world examples and measure false positives and false negatives.
 
 ---
 
-## FLOW001 — Unbounded Agent Execution
+## sp001 — Unbounded Agent Execution
 
 **Severity:** HIGH
 
@@ -253,7 +252,7 @@ Or use an explicit timeout, deadline, cancellation mechanism, or execution budge
 
 ---
 
-## FLOW002 — Uncontrolled Tool Invocation
+## sp002 — Uncontrolled Tool Invocation
 
 **Severity:** HIGH
 
@@ -287,7 +286,7 @@ except ToolError as exc:
 
 ---
 
-## FLOW003 — Dangerous Tool Reachability
+## sp003 — Dangerous Tool Reachability
 
 **Severity:** HIGH
 
@@ -317,13 +316,13 @@ run_command(command)
 
 These capabilities can be legitimate and necessary.
 
-Flowmark's goal is to make them visible for review rather than automatically declaring them unsafe.
+spotlint's goal is to make them visible for review rather than automatically declaring them unsafe.
 
 A future version will provide more precise capability and policy analysis.
 
 ---
 
-## FLOW004 — Cascading Agent Execution
+## sp004 — Cascading Agent Execution
 
 **Severity:** HIGH
 
@@ -345,7 +344,7 @@ Future versions will use richer call-graph and control-flow analysis to distingu
 
 ---
 
-## FLOW005 — Missing Execution Boundary
+## sp005 — Missing Execution Boundary
 
 **Severity:** MEDIUM
 
@@ -387,31 +386,31 @@ The beta implementation provides an initial static signal. Framework-specific an
 ## Basic scan
 
 ```bash
-flowmark check .
+spotlint check .
 ```
 
 ## Scan one file
 
 ```bash
-flowmark check test_agent.py
+spotlint check test_agent.py
 ```
 
 ## Select a rule
 
 ```bash
-flowmark check . --rule FLOW001
+spotlint check . --rule sp001
 ```
 
 Multiple rules:
 
 ```bash
-flowmark check . --rule FLOW001,FLOW003
+spotlint check . --rule sp001,sp003
 ```
 
 ## Severity filtering
 
 ```bash
-flowmark check . --severity HIGH
+spotlint check . --severity HIGH
 ```
 
 Supported severities:
@@ -432,17 +431,17 @@ CRITICAL
 Default output:
 
 ```bash
-flowmark check .
+spotlint check .
 ```
 
-Designed for developers running Flowmark locally.
+Designed for developers running spotlint locally.
 
 ---
 
 ## JSON
 
 ```bash
-flowmark check . --format json
+spotlint check . --format json
 ```
 
 JSON is intended for automation and integration with other development tools.
@@ -454,7 +453,7 @@ Example structure:
   "version": "0.1",
   "findings": [
     {
-      "rule_id": "FLOW001",
+      "rule_id": "sp001",
       "severity": "HIGH",
       "message": "Unbounded agent/tool execution loop detected."
     }
@@ -467,7 +466,7 @@ Example structure:
 ## SARIF
 
 ```bash
-flowmark check . --format sarif --output flowmark.sarif
+spotlint check . --format sarif --output spotlint.sarif
 ```
 
 SARIF is intended for integration with code-scanning and CI systems.
@@ -476,18 +475,18 @@ SARIF is intended for integration with code-scanning and CI systems.
 
 # Exit Codes
 
-Flowmark is designed to work in CI/CD pipelines.
+spotlint is designed to work in CI/CD pipelines.
 
 ```text
 0   No findings at or above the configured severity
 1   Findings detected
-2   Flowmark execution/configuration error
+2   spotlint execution/configuration error
 ```
 
 Example:
 
 ```bash
-flowmark check . --severity HIGH
+spotlint check . --severity HIGH
 ```
 
 This allows a pipeline to enforce a policy such as:
@@ -496,7 +495,7 @@ This allows a pipeline to enforce a policy such as:
                  Pull Request
                        │
                        ▼
-                  Flowmark
+                  spotlint
                        │
               ┌────────┴────────┐
               ▼                 ▼
@@ -566,7 +565,7 @@ Policy Analysis
 
 The same source should produce the same result.
 
-Flowmark Beta does not depend on an LLM to determine whether a finding should be reported.
+spotlint Beta does not depend on an LLM to determine whether a finding should be reported.
 
 ---
 
@@ -584,7 +583,7 @@ Explanation
 Recommendation
 ```
 
-Flowmark should avoid vague messages such as:
+spotlint should avoid vague messages such as:
 
 ```text
 "This code might be dangerous."
@@ -598,7 +597,7 @@ Instead, findings should explain **why the code was flagged**.
 
 Static-analysis tools are only useful when developers trust their findings.
 
-Flowmark therefore treats precision as a core product metric.
+spotlint therefore treats precision as a core product metric.
 
 Each rule should have:
 
@@ -621,13 +620,13 @@ Future versions may add semantic support for ecosystems such as:
 * OpenAI agent patterns
 * custom agent frameworks
 
-Framework integrations should extend Flowmark's analysis model rather than define it.
+Framework integrations should extend spotlint's analysis model rather than define it.
 
 ---
 
-# What Flowmark Does Not Do
+# What spotlint Does Not Do
 
-Flowmark Beta does **not**:
+spotlint Beta does **not**:
 
 * execute your application
 * execute your agent
@@ -640,7 +639,7 @@ Flowmark Beta does **not**:
 * understand every Python framework
 * determine whether an LLM response is factually correct
 
-A clean Flowmark scan means only that the implemented beta rules did not identify the patterns they are designed to detect.
+A clean spotlint scan means only that the implemented beta rules did not identify the patterns they are designed to detect.
 
 ---
 
@@ -664,11 +663,11 @@ Example:
 
 ```text
 tests/
-├── test_flow001.py
-├── test_flow002.py
-├── test_flow003.py
-├── test_flow004.py
-└── test_flow005.py
+├── test_sp001.py
+├── test_sp002.py
+├── test_sp003.py
+├── test_sp004.py
+└── test_sp005.py
 ```
 
 A rule is not considered reliable simply because it detects a positive example.
@@ -680,14 +679,14 @@ It must also avoid flagging legitimate code unnecessarily.
 # Repository Structure
 
 ```text
-flowmark/
+spotlint/
 │
 ├── README.md
 ├── LICENSE
 ├── pyproject.toml
 │
 ├── src/
-│   └── flowmark/
+│   └── spotlint/
 │       │
 │       ├── __init__.py
 │       ├── __main__.py
@@ -708,11 +707,11 @@ flowmark/
 │       │   ├── base.py
 │       │   ├── helpers.py
 │       │   ├── registry.py
-│       │   ├── flow001.py
-│       │   ├── flow002.py
-│       │   ├── flow003.py
-│       │   ├── flow004.py
-│       │   └── flow005.py
+│       │   ├── sp001.py
+│       │   ├── sp002.py
+│       │   ├── sp003.py
+│       │   ├── sp004.py
+│       │   └── sp005.py
 │       │
 │       └── reporters/
 │           ├── __init__.py
@@ -727,7 +726,7 @@ flowmark/
 
 # Roadmap
 
-Flowmark Beta is focused on validating the core idea:
+spotlint Beta is focused on validating the core idea:
 
 > Can static analysis provide useful, actionable signals for agentic software?
 
@@ -780,7 +779,7 @@ This is a future direction, not a capability claim for the current beta.
 
 # Contributing
 
-Flowmark is currently in beta and feedback is especially valuable.
+spotlint is currently in beta and feedback is especially valuable.
 
 Useful contributions include:
 
@@ -811,7 +810,7 @@ When proposing a rule, provide:
 When reporting an issue, include:
 
 ```text
-Flowmark version:
+spotlint version:
 Python version:
 Operating system:
 Rule:
@@ -835,7 +834,7 @@ before submitting examples.
 
 # Security
 
-If you believe you have discovered a security issue in Flowmark itself, please follow the repository's security reporting process rather than publicly posting sensitive details.
+If you believe you have discovered a security issue in spotlint itself, please follow the repository's security reporting process rather than publicly posting sensitive details.
 
 A dedicated `SECURITY.md` should be added before the first stable release.
 
@@ -851,7 +850,7 @@ See `LICENSE` for the full license text.
 
 # Project Status
 
-**Flowmark `v0.1.0-beta`**
+**spotlint `v0.1.0-beta`**
 
 Experimental developer release.
 

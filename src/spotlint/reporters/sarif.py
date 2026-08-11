@@ -49,7 +49,7 @@ class SarifReporter:
                     {
                         "tool": {
                             "driver": {
-                                "name": "Flowmark",
+                                "name": "spotlint",
                                 "version": "0.1.0",
                             }
                         },

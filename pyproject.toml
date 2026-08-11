@@ -3,7 +3,7 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "flowmark"
+name = "spotlint"
 version = "0.1.0"
 description = "Static analysis for agentic Python software"
 readme = "README.md"
@@ -17,7 +17,7 @@ dev = [
 ]
 
 [project.scripts]
-flowmark = "flowmark.cli:main"
+spotlint = "spotlint.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -7,10 +7,10 @@ from ..model.context import AnalysisContext
 from ..model.finding import Finding, SourceLocation
 
 
-class Flow001(Rule):
+class sp001(Rule):
 
     metadata = RuleMetadata(
-        rule_id="FLOW001",
+        rule_id="sp001",
         name="Unbounded Agent Execution",
         severity="HIGH",
         description=(
@@ -45,7 +45,7 @@ class Flow001(Rule):
 
             findings.append(
                 Finding(
-                    rule_id="FLOW001",
+                    rule_id="sp001",
                     severity="HIGH",
                     message=(
                         "Unbounded agent/tool execution loop detected"

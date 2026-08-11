@@ -7,10 +7,10 @@ from ..model.context import AnalysisContext
 from ..model.finding import Finding, SourceLocation
 
 
-class Flow002(Rule):
+class sp002(Rule):
 
     metadata = RuleMetadata(
-        rule_id="FLOW002",
+        rule_id="sp002",
         name="Uncontrolled Tool Invocation",
         severity="HIGH",
         description="Detects tool calls without a local failure boundary.",
@@ -33,7 +33,7 @@ class Flow002(Rule):
 
             findings.append(
                 Finding(
-                    rule_id="FLOW002",
+                    rule_id="sp002",
                     severity="HIGH",
                     message="Tool invocation has no visible error boundary",
                     location=SourceLocation(

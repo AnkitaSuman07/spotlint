@@ -15,10 +15,10 @@ AGENT_METHODS = {
 }
 
 
-class Flow004(Rule):
+class sp004(Rule):
 
     metadata = RuleMetadata(
-        rule_id="FLOW004",
+        rule_id="sp004",
         name="Agent Recursion",
         severity="HIGH",
         description="Detects agent execution from within agent execution functions.",
@@ -56,7 +56,7 @@ class Flow004(Rule):
 
                 findings.append(
                     Finding(
-                        rule_id="FLOW004",
+                        rule_id="sp004",
                         severity="HIGH",
                         message="Multiple agent invocations detected in one execution path",
                         location=SourceLocation(

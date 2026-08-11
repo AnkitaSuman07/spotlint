@@ -1,7 +1,7 @@
 import ast
 
-from flowmark.model import RuleContext, Severity, SourceFile
-from flowmark.rules import DEFAULT_RULES
+from spotlint.model import RuleContext, Severity, SourceFile
+from spotlint.rules import DEFAULT_RULES
 
 
 def findings(source: str):

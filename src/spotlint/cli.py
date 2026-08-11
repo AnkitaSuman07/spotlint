@@ -21,7 +21,7 @@ SEVERITY = {
 def build_parser():
 
     parser = argparse.ArgumentParser(
-        prog="flowmark"
+        prog="spotlint"
     )
 
     sub = parser.add_subparsers(
@@ -144,7 +144,7 @@ def main(argv=None):
     except (OSError, ValueError) as exc:
 
         print(
-            f"flowmark: error: {exc}",
+            f"spotlint: error: {exc}",
             file=sys.stderr
         )
 

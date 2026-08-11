@@ -1,0 +1,94 @@
+Metadata-Version: 2.4
+Name: flowmark
+Version: 0.1.0
+Summary: Static analysis for agentic Python software
+License: Apache-2.0
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Provides-Extra: dev
+Requires-Dist: pytest>=8.0; extra == "dev"
+Dynamic: license-file
+
+# flowmark
+
+**flowmark is a shift-left static analyzer for AI-agent and workflow code.**
+
+It is intentionally not an LLM evaluator. It parses source code and applies deterministic
+rules before the agent runs.
+
+## Initial production-oriented rules
+
+| Rule | Meaning | Severity |
+|---|---|---|
+| AG001 | Unbounded agent/tool loop | HIGH |
+| AG002 | Unhandled agent/tool failure | HIGH |
+| AG003 | External call without timeout | MEDIUM |
+| AG004 | External call without retry/fallback | MEDIUM |
+| AG005 | Hardcoded secret/API credential | CRITICAL |
+
+## Quick start
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -e ".[dev]"
+
+flowmark check examples/bad_agent.py
+flowmark check src --format json
+flowmark check src --format sarif --output flowmark.sarif
+```
+
+Exit codes:
+
+* `0` = clean
+* `1` = findings
+* `2` = invocation, configuration, or parse error
+
+## Architecture
+
+```text
+                 Python source
+                       |
+                       v
+                AST + source map
+                       |
+                       v
+                 Rule engine
+          +------------+------------+
+          |            |            |
+        AG001        AG002        AG003 ...
+          |            |            |
+          +------------+------------+
+                       |
+                       v
+              Findings / SARIF
+```
+
+The core is framework-independent. Framework adapters can later normalize LangGraph,
+custom state machines, or other agent definitions into a common intermediate representation.
+
+## Production principles
+
+1. **Deterministic first** — no LLM required for a lint result.
+2. **Conservative detection** — don't report claims that static analysis cannot support.
+3. **Stable rule IDs** — CI policies can depend on AG001, AG002, etc.
+4. **Machine-readable output** — JSON and SARIF are first-class.
+5. **CI-safe exit codes** — findings fail a pipeline without crashing the analyzer.
+6. **No secrets in output** — the scanner reports locations and names, not secret values.
+7. **Extensible rules** — rules are isolated from parsing and reporting.
+
+## Roadmap
+
+The next production milestones should be:
+
+* baseline/suppressions with justification
+* framework adapters
+* prompt-injection surface analysis
+* tool least-privilege analysis
+* async timeout detection
+* data-flow-aware secret detection
+* incremental analysis
+* GitHub/GitLab CI annotations
+* rule configuration and organization policy packs
+* benchmark corpus and false-positive tracking

@@ -1,10 +1,10 @@
 from .base import Rule
 
-from .flow001 import Flow001
-from .flow002 import Flow002
-from .flow003 import Flow003
-from .flow004 import Flow004
-from .flow005 import Flow005
+from .sp001 import sp001
+from .sp002 import sp002
+from .sp003 import sp003
+from .sp005 import sp004
+from .sp004 import sp005
 
 
 class RuleRegistry:
@@ -37,10 +37,10 @@ def default_registry():
 
     return RuleRegistry(
         [
-            Flow001(),
-            Flow002(),
-            Flow003(),
-            Flow004(),
-            Flow005(),
+            sp001(),
+            sp002(),
+            sp003(),
+            sp004(),
+            sp005(),
         ]
     )

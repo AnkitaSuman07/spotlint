@@ -18,10 +18,10 @@ DANGEROUS_TOOLS = {
 }
 
 
-class Flow003(Rule):
+class sp003(Rule):
 
     metadata = RuleMetadata(
-        rule_id="FLOW003",
+        rule_id="sp003",
         name="Dangerous Tool Reachability",
         severity="HIGH",
         description="Detects agent/tool code reaching high-impact capabilities.",
@@ -43,7 +43,7 @@ class Flow003(Rule):
 
             findings.append(
                 Finding(
-                    rule_id="FLOW003",
+                    rule_id="sp003",
                     severity="HIGH",
                     message=(
                         f"High-impact tool reachable: {call_name(node)}"

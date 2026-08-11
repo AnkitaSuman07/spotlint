@@ -16,10 +16,10 @@ BOUNDARY_ARGUMENTS = {
 }
 
 
-class Flow005(Rule):
+class sp005(Rule):
 
     metadata = RuleMetadata(
-        rule_id="FLOW005",
+        rule_id="sp005",
         name="Missing Execution Boundary",
         severity="MEDIUM",
         description="Detects agent execution without explicit boundary controls.",
@@ -47,7 +47,7 @@ class Flow005(Rule):
 
             findings.append(
                 Finding(
-                    rule_id="FLOW005",
+                    rule_id="sp005",
                     severity="MEDIUM",
                     message="Agent execution has no explicit execution boundary",
                     location=SourceLocation(
